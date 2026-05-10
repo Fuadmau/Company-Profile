@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURUM — Company Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --gold-pale: #F5E9C8;
+      --black: #0A0A0A;
+      --charcoal: #141414;
+      --dark: #1C1C1C;
+      --mid: #2A2A2A;
+      --text: #E0D8CC;
+      --muted: #8A8070;
+      --white: #FAF8F4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.3s ease;
+      opacity: 0.6;
+    }
+    body:hover .cursor { transform: scale(1); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 5%;
+      transition: all 0.5s ease;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      padding: 1.2rem 5%;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 0.6rem 1.8rem;
+      font-size: 0.65rem !important;
+      letter-spacing: 0.25em !important;
+      transition: all 0.3s ease !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--black) !important;
+    }
+    .nav-cta::after { display: none !important; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%),
+        var(--black);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at center, black, transparent);
+    }
+    .hero-content {
+      position: relative;
+      text-align: center;
+      max-width: 900px;
+      padding: 2rem;
+      animation: heroFadeIn 1.4s ease forwards;
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      line-height: 2;
+      max-width: 500px;
+      margin: 0 auto 3.5rem;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s ease forwards;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.9s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--gold);
+      color: var(--black);
+      padding: 1rem 2.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold-light);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 1; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .btn-secondary:hover { color: var(--gold); }
+    .btn-secondary .arrow {
+      width: 40px; height: 1px;
+      background: currentColor;
+      transition: width 0.3s;
+    }
+    .btn-secondary:hover .arrow { width: 60px; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 3rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s ease forwards;
+    }
+    .scroll-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50% { opacity: 0.4; }
+    }
+
+    /* SECTION BASE */
+    section { padding: 8rem 5%; }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 30px; height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ABOUT */
+    #about {
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+    #about::before {
+      content: 'AURUM';
+      position: absolute;
+      right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18vw;
+      font-weight: 600;
+      color: rgba(201,168,76,0.03);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .about-text p {
+      font-size: 0.9rem;
+      line-height: 2;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 400; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .stat-card {
+      background: var(--dark);
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(201,168,76,0.08);
+      transition: border-color 0.3s;
+    }
+    .stat-card:hover { border-color: rgba(201,168,76,0.3); }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* SERVICES */
+    #services { max-width: 1400px; margin: 0 auto; }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 5rem;
+    }
+    .services-header-left { max-width: 500px; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .service-card {
+      background: var(--charcoal);
+      padding: 3rem 2.5rem;
+      border: 1px solid rgba(201,168,76,0.06);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover { background: var(--dark); transform: translateY(-4px); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(201,168,76,0.1);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.4s;
+    }
+    .service-card:hover .service-number { color: rgba(201,168,76,0.2); }
+    .service-icon {
+      width: 48px; height: 48px;
+      margin-bottom: 1.5rem;
+      color: var(--gold);
+    }
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .service-desc {
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+    .service-card:hover .service-link { opacity: 1; transform: translateX(0); }
+
+    /* MARQUEE */
+    .marquee-section {
+      padding: 3rem 0;
+      background: var(--dark);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 4rem;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--muted);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .marquee-item span { color: var(--gold); font-size: 0.5rem; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* PORTFOLIO */
+    #portfolio {
+      background: var(--charcoal);
+      padding: 8rem 5%;
+    }
+    .portfolio-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 5rem;
+    }
+    .portfolio-header .section-label { justify-content: center; }
+    .portfolio-header .section-label::before { display: none; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 2px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .portfolio-item {
+      background: var(--dark);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .portfolio-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .portfolio-item:nth-child(2) { grid-column: span 5; }
+    .portfolio-item:nth-child(3) { grid-column: span 5; }
+    .portfolio-item:nth-child(4) { grid-column: span 4; }
+    .portfolio-item:nth-child(5) { grid-column: span 4; }
+    .portfolio-item:nth-child(6) { grid-column: span 4; }
+    .portfolio-visual {
+      width: 100%;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-item:nth-child(1) .portfolio-visual { aspect-ratio: 3/2; min-height: 400px; }
+    .portfolio-item:hover .portfolio-visual { transform: scale(1.04); }
+    .portfolio-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-item:nth-child(1) .portfolio-bg { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
+    .portfolio-item:nth-child(2) .portfolio-bg { background: linear-gradient(135deg, #1c1c1c, #2d2d2d); }
+    .portfolio-item:nth-child(3) .portfolio-bg { background: linear-gradient(135deg, #0d1b2a, #1b3a5c); }
+    .portfolio-item:nth-child(4) .portfolio-bg { background: linear-gradient(135deg, #1a0a00, #3d1f00); }
+    .portfolio-item:nth-child(5) .portfolio-bg { background: linear-gradient(135deg, #0a0a1a, #1a1a3e); }
+    .portfolio-item:nth-child(6) .portfolio-bg { background: linear-gradient(135deg, #0a1a0a, #1a3a1a); }
+    .portfolio-pattern {
+      position: absolute; inset: 0;
+      opacity: 0.15;
+      background-image: radial-gradient(circle, var(--gold) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.7);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      font-style: italic;
+    }
+    .portfolio-overlay-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .portfolio-inner-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      color: rgba(201,168,76,0.3);
+    }
+
+    /* TEAM */
+    #team {
+      padding: 8rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .team-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 5rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .team-card {
+      background: var(--charcoal);
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.06);
+      transition: all 0.4s;
+    }
+    .team-card:hover { border-color: rgba(201,168,76,0.2); }
+    .team-photo {
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card:nth-child(1) .team-photo { background: linear-gradient(160deg, #1a1500, #3d3000); }
+    .team-card:nth-child(2) .team-photo { background: linear-gradient(160deg, #0d1520, #1b3040); }
+    .team-card:nth-child(3) .team-photo { background: linear-gradient(160deg, #150d1a, #301b3d); }
+    .team-card:nth-child(4) .team-photo { background: linear-gradient(160deg, #001515, #003030); }
+    .team-avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      border: 2px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      background: rgba(201,168,76,0.05);
+      position: relative;
+      z-index: 1;
+    }
+    .team-info { padding: 2rem; }
+    .team-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .team-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .team-bio {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    /* TESTIMONIALS */
+    .testimonials-section {
+      background: var(--dark);
+      padding: 8rem 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonials-section::after {
+      content: '"';
+      position: absolute;
+      right: 5%; top: 3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20rem;
+      color: rgba(201,168,76,0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 4rem;
+    }
+    .testimonial-card {
+      background: var(--charcoal);
+      padding: 3rem;
+      border: 1px solid rgba(201,168,76,0.07);
+      position: relative;
+    }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+    .testimonial-divider {
+      width: 40px; height: 1px;
+      background: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .testimonial-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+    .testimonial-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .testimonial-company {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .testimonial-stars {
+      position: absolute;
+      top: 2.5rem; right: 2.5rem;
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 10rem 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+    }
+    .cta-inner { position: relative; max-width: 700px; margin: 0 auto; }
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-sub {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      line-height: 2;
+    }
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--charcoal);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 5rem 5% 3rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .footer-brand p {
+      font-size: 0.8rem;
+      line-height: 2;
+      color: var(--muted);
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+    .footer-col ul a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid rgba(201,168,76,0.08);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-copy {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .footer-socials { display: flex; gap: 1.5rem; }
+    .footer-socials a {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+    .footer-socials a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* CONTACT */
+    #contact {
+      background: var(--charcoal);
+      padding: 8rem 5%;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--dark);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: var(--text);
+      padding: 1rem 1.2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      resize: none;
+    }
+    .form-group select option { background: var(--dark); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted); }
+    .contact-info { padding-top: 1rem; }
+    .contact-info p {
+      font-size: 0.85rem;
+      line-height: 2;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-detail { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .contact-detail-icon {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .contact-detail-text span {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .contact-detail-text p { font-size: 0.85rem; color: var(--text); line-height: 1.6; margin: 0; }
+
+    @media (max-width: 900px) {
+      .about-grid, .contact-grid, .testimonials-grid, .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .services-grid, .team-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-grid { display: flex; flex-direction: column; }
+      .portfolio-item { width: 100%; }
+      .nav-links { display: none; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 2rem; }
+      .team-header { flex-direction: column; align-items: flex-start; gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .services-grid, .team-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .cta-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">AURUM</a>
+    <ul class="nav-links">
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#services">Layanan</a></li>
+      <li><a href="#portfolio">Portofolio</a></li>
+      <li><a href="#team">Tim</a></li>
+      <li><a href="#contact" class="nav-cta">Hubungi Kami</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Est. 2010 &nbsp;·&nbsp; Jakarta, Indonesia</p>
+      <h1 class="hero-title">
+        Excellence<br>
+        <em>Redefined</em>
+      </h1>
+      <p class="hero-subtitle">Kami membangun masa depan dengan presisi,<br>keahlian, dan dedikasi tanpa kompromi</p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary"><span>Jelajahi Layanan</span></a>
+        <a href="#portfolio" class="btn-secondary">
+          <div class="arrow"></div>
+          Lihat Karya Kami
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span class="scroll-label">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item">Konsultasi Bisnis <span>◆</span></div>
+      <div class="marquee-item">Manajemen Proyek <span>◆</span></div>
+      <div class="marquee-item">Transformasi Digital <span>◆</span></div>
+      <div class="marquee-item">Strategi Investasi <span>◆</span></div>
+      <div class="marquee-item">Pengembangan Brand <span>◆</span></div>
+      <div class="marquee-item">Riset & Analitik <span>◆</span></div>
+      <div class="marquee-item">Konsultasi Bisnis <span>◆</span></div>
+      <div class="marquee-item">Manajemen Proyek <span>◆</span></div>
+      <div class="marquee-item">Transformasi Digital <span>◆</span></div>
+      <div class="marquee-item">Strategi Investasi <span>◆</span></div>
+      <div class="marquee-item">Pengembangan Brand <span>◆</span></div>
+      <div class="marquee-item">Riset & Analitik <span>◆</span></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="section-label">Tentang Kami</div>
+        <h2 class="section-title">Lebih dari sekedar <em>perusahaan</em></h2>
+        <p>
+          <strong>AURUM</strong> adalah firma konsultasi bisnis premium yang telah berdiri sejak 2010.
+          Kami melayani klien-klien terkemuka di seluruh Asia Tenggara dengan pendekatan yang
+          terukur, strategis, dan berorientasi hasil nyata.
+        </p>
+        <p>
+          Dengan tim ahli berpengalaman lebih dari satu dekade, kami memahami bahwa setiap
+          tantangan bisnis adalah unik. Kami tidak menawarkan solusi generik — kami merancang
+          strategi yang presisi untuk kebutuhan Anda.
+        </p>
+        <p>
+          Filosofi kami sederhana: <strong>integritas, keunggulan, dan kemitraan jangka panjang.</strong>
+          Keberhasilan klien adalah keberhasilan kami.
+        </p>
+        <br>
+        <a href="#contact" class="btn-primary"><span>Mulai Percakapan</span></a>
+      </div>
+      <div class="about-stats reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-number">14+</div>
+          <div class="stat-label">Tahun Pengalaman</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">320</div>
+          <div class="stat-label">Proyek Selesai</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Kepuasan Klien</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Negara Dilayani</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="padding: 8rem 5%; max-width: unset;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+      <div class="services-header reveal">
+        <div class="services-header-left">
+          <div class="section-label">Layanan Kami</div>
+          <h2 class="section-title">Solusi terbaik untuk <em>bisnis</em> Anda</h2>
+        </div>
+        <a href="#contact" class="btn-secondary">
+          <div class="arrow"></div>
+          Semua Layanan
+        </a>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-number">01</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="8" y="8" width="32" height="32" rx="2"/>
+            <path d="M16 28l6-6 4 4 8-8"/>
+          </svg>
+          <div class="service-title">Konsultasi Strategis</div>
+          <p class="service-desc">Kami merancang roadmap bisnis yang komprehensif — dari analisis pasar hingga eksekusi strategi yang menghasilkan pertumbuhan berkelanjutan.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-number">02</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="24" cy="24" r="16"/>
+            <path d="M24 8v16l10 6"/>
+          </svg>
+          <div class="service-title">Transformasi Digital</div>
+          <p class="service-desc">Akselerasi digitalisasi bisnis Anda dengan teknologi terkini. Kami memandu setiap tahap transformasi dari assessment hingga implementasi.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-number">03</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 40l10-10 8 6 14-18"/>
+            <circle cx="40" cy="12" r="4"/>
+          </svg>
+          <div class="service-title">Manajemen Investasi</div>
+          <p class="service-desc">Optimalkan portofolio investasi Anda dengan analisis mendalam dan strategi pengelolaan risiko yang telah terbukti menghasilkan return superior.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-number">04</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="20" width="36" height="22" rx="2"/>
+            <path d="M16 20V14a8 8 0 0 1 16 0v6"/>
+          </svg>
+          <div class="service-title">Kepatuhan & Hukum</div>
+          <p class="service-desc">Pastikan operasional bisnis Anda sesuai regulasi dengan dukungan tim ahli hukum dan kepatuhan berpengalaman di berbagai yurisdiksi.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-number">05</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M24 4l18 10v20L24 44 6 34V14z"/>
+            <path d="M24 4v40M6 14l18 10 18-10"/>
+          </svg>
+          <div class="service-title">Pengembangan Brand</div>
+          <p class="service-desc">Bangun identitas merek yang kuat dan berkesan. Dari branding strategy hingga komunikasi visual yang mencerminkan nilai-nilai premium perusahaan Anda.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-number">06</div>
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="24" cy="24" r="4"/>
+            <path d="M24 4v8M24 36v8M4 24h8M36 24h8"/>
+            <path d="M9.4 9.4l5.7 5.7M32.9 32.9l5.7 5.7M38.6 9.4l-5.7 5.7M15.1 32.9l-5.7 5.7"/>
+          </svg>
+          <div class="service-title">Riset & Analitik</div>
+          <p class="service-desc">Dapatkan wawasan mendalam tentang pasar, kompetitor, dan peluang bisnis melalui riset kualitatif dan kuantitatif yang komprehensif dan akurat.</p>
+          <a href="#" class="service-link">Pelajari Lebih →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="portfolio-header reveal">
+      <div class="section-label">Portofolio</div>
+      <h2 class="section-title">Karya yang <em>berbicara</em></h2>
+      <p style="font-size:0.85rem; color: var(--muted); line-height:2; margin-top:1rem;">Setiap proyek adalah bukti komitmen kami terhadap keunggulan</p>
+    </div>
+    <div class="portfolio-grid reveal">
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">I</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">PT Nusantara Kapital</div>
+            <div class="portfolio-overlay-tag">Strategi Transformasi</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">II</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">Archipelago Group</div>
+            <div class="portfolio-overlay-tag">Brand Identity</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">III</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">Mandiri Holdings</div>
+            <div class="portfolio-overlay-tag">Digital Transformation</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">IV</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">Garuda Ventures</div>
+            <div class="portfolio-overlay-tag">Investment Strategy</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">V</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">Bintan Luxury Resort</div>
+            <div class="portfolio-overlay-tag">Market Expansion</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <div class="portfolio-visual">
+          <div class="portfolio-bg"></div>
+          <div class="portfolio-pattern"></div>
+          <div class="portfolio-inner-icon">VI</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-overlay-title">EcoSmart Indonesia</div>
+            <div class="portfolio-overlay-tag">ESG Consulting</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" style="padding: 8rem 5%; max-width: unset; background: var(--black);">
+    <div style="max-width: 1400px; margin: 0 auto;">
+      <div class="team-header reveal">
+        <div>
+          <div class="section-label">Tim Kami</div>
+          <h2 class="section-title">Para ahli di balik <em>kesuksesan</em></h2>
+        </div>
+        <a href="#" class="btn-secondary"><div class="arrow"></div> Seluruh Tim</a>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-photo">
+            <div class="team-avatar">AR</div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Ahmad Rizaldi</div>
+            <div class="team-role">Chief Executive Officer</div>
+            <p class="team-bio">20+ tahun pengalaman di bidang keuangan dan konsultasi strategis. Alumni Harvard Business School.</p>
+          </div>
+        </div>
+        <div class="team-card reveal reveal-delay-1">
+          <div class="team-photo">
+            <div class="team-avatar">SW</div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Sarah Wulandari</div>
+            <div class="team-role">Chief Strategy Officer</div>
+            <p class="team-bio">Pakar transformasi digital dengan rekam jejak lebih dari 100 proyek sukses di Asia Tenggara.</p>
+          </div>
+        </div>
+        <div class="team-card reveal reveal-delay-2">
+          <div class="team-photo">
+            <div class="team-avatar">DP</div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Dimas Prayoga</div>
+            <div class="team-role">Head of Investment</div>
+            <p class="team-bio">Mantan Investment Director di Goldman Sachs Singapore dengan keahlian deep di pasar Asia.</p>
+          </div>
+        </div>
+        <div class="team-card reveal reveal-delay-3">
+          <div class="team-photo">
+            <div class="team-avatar">LA</div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Liana Arifin</div>
+            <div class="team-role">Head of Brand & Creative</div>
+            <p class="team-bio">Memimpin pengembangan identitas merek untuk lebih dari 50 perusahaan Fortune 500 di kawasan Asia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials-section">
+    <div class="testimonials-inner">
+      <div class="reveal">
+        <div class="section-label">Testimoni</div>
+        <h2 class="section-title">Apa kata <em>klien</em> kami</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+          <p class="testimonial-quote">"AURUM tidak hanya memberikan konsultasi — mereka menjadi mitra strategis yang benar-benar memahami visi dan tantangan bisnis kami. Hasilnya jauh melampaui ekspektasi kami."</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">BH</div>
+            <div>
+              <div class="testimonial-name">Budi Hartono</div>
+              <div class="testimonial-company">CEO, PT Nusantara Kapital</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+          <p class="testimonial-quote">"Tim AURUM membantu kami menavigasi kompleksitas transformasi digital dengan sangat terstruktur. Revenue kami tumbuh 40% dalam 18 bulan pertama kolaborasi."</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">RP</div>
+            <div>
+              <div class="testimonial-name">Ratna Permata</div>
+              <div class="testimonial-company">Managing Director, Archipelago Group</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+          <p class="testimonial-quote">"Keahlian mereka dalam analisis pasar dan strategi ekspansi sangat luar biasa. AURUM adalah investasi terbaik yang pernah kami lakukan untuk pertumbuhan bisnis."</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MF</div>
+            <div>
+              <div class="testimonial-name">Muhammad Farid</div>
+              <div class="testimonial-company">President Director, Garuda Ventures</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars">★ ★ ★ ★ ★</div>
+          <p class="testimonial-quote">"Pendekatan yang terukur, komunikasi yang transparan, dan deliverables yang selalu tepat waktu. AURUM mendefinisikan ulang standar layanan konsultasi premium."</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">IC</div>
+            <div>
+              <div class="testimonial-name">Indira Chandra</div>
+              <div class="testimonial-company">CFO, Mandiri Holdings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="section-label">Hubungi Kami</div>
+        <h2 class="section-title">Mulai <em>perjalanan</em> bersama</h2>
+        <div class="contact-info">
+          <p>Ceritakan tantangan bisnis Anda kepada kami. Tim ahli kami siap merancang solusi yang tepat, terukur, dan berdampak nyata.</p>
+          <div class="contact-details">
+            <div class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span>Kantor Pusat</span>
+                <p>Jl. Sudirman Kav. 52-53, Gedung Prestige Tower Lt. 28<br>Jakarta Selatan 12190, Indonesia</p>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span>Telepon</span>
+                <p>+62 21 5785 0000</p>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-detail-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span>Email</span>
+                <p>hello@aurum-consulting.id</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" placeholder="Masukkan nama Anda">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="email@perusahaan.com">
+          </div>
+          <div class="form-group">
+            <label>Perusahaan</label>
+            <input type="text" placeholder="Nama perusahaan Anda">
+          </div>
+          <div class="form-group">
+            <label>Layanan yang Diminati</label>
+            <select>
+              <option value="">Pilih layanan...</option>
+              <option>Konsultasi Strategis</option>
+              <option>Transformasi Digital</option>
+              <option>Manajemen Investasi</option>
+              <option>Kepatuhan & Hukum</option>
+              <option>Pengembangan Brand</option>
+              <option>Riset & Analitik</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Pesan</label>
+            <textarea rows="5" placeholder="Ceritakan kebutuhan bisnis Anda..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="border:none; cursor:pointer; width:fit-content;">
+            <span>Kirim Pesan</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Siap membawa bisnis ke level <em>berikutnya?</em></h2>
+      <p class="cta-sub">Jadwalkan konsultasi gratis 60 menit dengan tim ahli kami</p>
+      <div class="cta-actions">
+        <a href="#contact" class="btn-primary"><span>Jadwalkan Sekarang</span></a>
+        <a href="tel:+622157850000" class="btn-secondary"><div class="arrow"></div> +62 21 5785 0000</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="footer-logo">AURUM</span>
+        <p>Firma konsultasi bisnis premium yang membantu perusahaan-perusahaan terkemuka di Asia Tenggara mencapai potensi terbaiknya.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#services">Layanan</a></li>
+          <li><a href="#portfolio">Portofolio</a></li>
+          <li><a href="#team">Tim</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Layanan</h4>
+        <ul>
+          <li><a href="#">Konsultasi Strategis</a></li>
+          <li><a href="#">Transformasi Digital</a></li>
+          <li><a href="#">Investasi</a></li>
+          <li><a href="#">Kepatuhan</a></li>
+          <li><a href="#">Brand</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="#">Jakarta</a></li>
+          <li><a href="#">Singapura</a></li>
+          <li><a href="#">Kuala Lumpur</a></li>
+          <li><a href="mailto:hello@aurum-consulting.id">hello@aurum-consulting.id</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 AURUM Consulting. All rights reserved.</span>
+      <div class="footer-socials">
+        <a href="#">in</a>
+        <a href="#">ig</a>
+        <a href="#">tw</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 4 + 'px';
+      cursor.style.top = my - 4 + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx - 18 + 'px';
+      ring.style.top = ry - 18 + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .service-card, .team-card, .portfolio-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2)';
+        ring.style.transform = 'scale(1.5)';
+        ring.style.opacity = '0.3';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        ring.style.transform = 'scale(1)';
+        ring.style.opacity = '0.6';
+      });
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Counter animation
+    function animateCounter(el, target, suffix = '') {
+      let start = 0;
+      const duration = 1800;
+      const step = (timestamp) => {
+        if (!step.start) step.start = timestamp;
+        const progress = Math.min((timestamp - step.start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(eased * target);
+        el.textContent = val + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const nums = entry.target.querySelectorAll('.stat-number');
+          nums.forEach(num => {
+            const text = num.textContent;
+            const match = text.match(/(\d+)([+%]?)/);
+            if (match) animateCounter(num, parseInt(match[1]), match[2]);
+          });
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.about-stats').forEach(el => statObserver.observe(el));
+
+    // Form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.innerHTML = '<span>Pesan Terkirim ✓</span>';
+      btn.style.background = 'rgba(201,168,76,0.3)';
+      setTimeout(() => {
+        btn.innerHTML = '<span>Kirim Pesan</span>';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
+
+pisahkan css dan java nya tanpa mengubah struktur kode
